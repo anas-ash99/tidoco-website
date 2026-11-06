@@ -1,124 +1,139 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import App from '../App';
 import { STORE_LINKS } from '../config/links';
+import { COOKIE_NAME, getCookie } from '../i18n/LanguageContext';
 
-describe('Tidoco Landing Pages and Static App Mockups', () => {
+describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
+  const originalLanguage = navigator.language;
+  const originalLanguages = navigator.languages;
+
+  const setBrowserLanguages = (languages: string[]) => {
+    Object.defineProperty(navigator, 'languages', {
+      value: languages,
+      configurable: true,
+    });
+    Object.defineProperty(navigator, 'language', {
+      value: languages[0] || 'en-US',
+      configurable: true,
+    });
+  };
+
+  const clearCookies = () => {
+    document.cookie = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+  };
+
   beforeEach(() => {
+    localStorage.clear();
+    clearCookies();
+    setBrowserLanguages(['en-US', 'en']);
     window.history.pushState({}, '', '/');
     document.documentElement.dir = 'ltr';
     document.documentElement.lang = 'en';
   });
 
-  it('renders Business landing page by default with exact copy, metrics, and static dashboard mockup', () => {
-    render(<App />);
-
-    // Main website headline and eyebrow
-    expect(screen.getByText('Your time, beautifully organized')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Bookings made simple\./i);
-
-    // Business dashboard preview exists as a decorative image mockup
-    const boardPreview = screen.getByRole('img', { name: /Tidoco business dashboard preview/i });
-    expect(boardPreview).toBeInTheDocument();
-
-    // Verify static metrics & items inside the mockup
-    expect(within(boardPreview).getByText('$50')).toBeInTheDocument();
-    expect(within(boardPreview).getAllByText("Today's Appointments")[0]).toBeInTheDocument();
-    expect(within(boardPreview).getByText("Today's Revenue")).toBeInTheDocument();
-    expect(within(boardPreview).getByText('Pending Requests')).toBeInTheDocument();
-    expect(within(boardPreview).getByText('Daniel Alon')).toBeInTheDocument();
-    expect(within(boardPreview).getByText('Sarah Goldstein')).toBeInTheDocument();
-
-    // Verify floating callouts
-    expect(within(boardPreview).getByText('More time for you')).toBeInTheDocument();
-    expect(within(boardPreview).getByText(/Booking confirmed/i)).toBeInTheDocument();
-
-    // Mockup has NO interactive button controls inside it (strictly static decorative)
-    expect(within(boardPreview).queryByRole('button')).toBeNull();
-    expect(within(boardPreview).queryByRole('textbox')).toBeNull();
+  afterEach(() => {
+    Object.defineProperty(navigator, 'languages', {
+      value: originalLanguages,
+      configurable: true,
+    });
+    Object.defineProperty(navigator, 'language', {
+      value: originalLanguage,
+      configurable: true,
+    });
   });
 
-  it('renders Client landing page with static phone mockup', () => {
-    window.history.pushState({}, '', '/clients');
+  it('renders Coming Soon page by default on "/" with exact copy and no download links', () => {
     render(<App />);
 
-    // Main website headline
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Good service\.\s*Right around you\./i);
+    // Eyebrow and Headline
+    expect(screen.getByText(/Tidoco is almost here/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Coming\s*soon\./i);
 
-    // Client phone preview exists as a decorative image mockup
-    const phonePreview = screen.getByRole('img', { name: /Tidoco client app preview/i });
-    expect(phonePreview).toBeInTheDocument();
+    // Lead and Note
+    expect(
+      screen.getByText(/A simpler way to discover local services and keep your appointments together/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/We’re putting the finishing touches on Tidoco\. Stay tuned\./i)
+    ).toBeInTheDocument();
 
-    // Verify static mockup content
-    expect(within(phonePreview).getByText(/Tel Aviv/i)).toBeInTheDocument();
-    expect(within(phonePreview).getByText('Ink & Craft Tattoo Atelier')).toBeInTheDocument();
-    expect(within(phonePreview).getByText('Haircut')).toBeInTheDocument();
-    expect(within(phonePreview).getByText('Nails')).toBeInTheDocument();
+    // Footer
+    expect(screen.getByText(/© 2026 Tidoco · Coming soon/i)).toBeInTheDocument();
 
-    // Floating callouts
-    expect(within(phonePreview).getByText(/Booking confirmed/i)).toBeInTheDocument();
-    expect(within(phonePreview).getByText(/Great spots nearby/i)).toBeInTheDocument();
-    expect(within(phonePreview).getByText(/Save your favorites/i)).toBeInTheDocument();
+    // Verify static visual mockup exists
+    const previewImg = screen.getByRole('img', { name: /Preview of the Tidoco booking app/i });
+    expect(previewImg).toBeInTheDocument();
 
-    // Mockup has NO interactive button controls inside it (strictly static decorative)
-    expect(within(phonePreview).queryByRole('button')).toBeNull();
-    expect(within(phonePreview).queryByRole('textbox')).toBeNull();
+    // Elements inside preview
+    expect(within(previewImg).getByText('Bookings, made simple')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Good Morning!')).toBeInTheDocument();
+    expect(within(previewImg).getByText('$50')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Quick Actions')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Find a service')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Coming up today')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Your next appointment')).toBeInTheDocument();
+    expect(within(previewImg).getByText('Booking confirmed')).toBeInTheDocument();
+
+    // Confirms it is a teaser with NO app store download links
+    expect(screen.queryByLabelText(/App Store/i)).toBeNull();
+    expect(screen.queryByLabelText(/Google Play/i)).toBeNull();
+    expect(screen.queryByRole('link', { name: /Download/i })).toBeNull();
+    expect(screen.queryByRole('link', { name: /Get the app/i })).toBeNull();
+
+    // Cookie is set for default resolved language
+    expect(getCookie(COOKIE_NAME)).toBe('en');
   });
 
-  it('allows switching between Business and Client pages via website header navigation', () => {
+  it('defaults to browser language when browser language is Hebrew and saves cookie', () => {
+    setBrowserLanguages(['he-IL', 'he']);
     render(<App />);
 
-    // Click "For clients" button in the website header
-    const clientSwitchBtn = screen.getByRole('button', { name: /switch to client landing page/i });
-    fireEvent.click(clientSwitchBtn);
+    // Verify document was initialized in Hebrew
+    expect(document.documentElement.dir).toBe('rtl');
+    expect(document.documentElement.lang).toBe('he');
 
-    // Should now be on Client page
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Good service\.\s*Right around you\./i);
+    // Verify Hebrew content
+    expect(screen.getByText(/Tidoco כמעט כאן/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/בקרוב\s*אצלכם\./i);
 
-    // Click "For businesses" button in the website header
-    const businessSwitchBtn = screen.getByRole('button', { name: /switch to business landing page/i });
-    fireEvent.click(businessSwitchBtn);
-
-    // Should now be back on Business page
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Bookings made simple\./i);
+    // Cookie is saved
+    expect(getCookie(COOKIE_NAME)).toBe('he');
   });
 
-  it('keeps website navigation, anchor links, and CTA controls active', () => {
+  it('defaults to browser language when browser language is Arabic and saves cookie', () => {
+    setBrowserLanguages(['ar-EG', 'ar']);
     render(<App />);
 
-    // Check website header links
-    const featuresLinks = screen.getAllByRole('link', { name: /Features/i });
-    expect(featuresLinks[0]).toHaveAttribute('href', '#features');
+    // Verify document was initialized in Arabic
+    expect(document.documentElement.dir).toBe('rtl');
+    expect(document.documentElement.lang).toBe('ar');
 
-    const bizLink = screen.getByRole('link', { name: /For business/i });
-    expect(bizLink).toHaveAttribute('href', '#for-business');
+    // Verify Arabic content
+    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/قريباً\s*جداً\./i);
 
-    const getAppNavCta = screen.getAllByRole('link', { name: /Get the app/i })[0];
-    expect(getAppNavCta).toHaveAttribute('href', '#download');
-
-    // Hero CTA links
-    const getStartedHeroBtn = screen.getByRole('link', { name: /Get started with Tidoco/i });
-    expect(getStartedHeroBtn).toHaveAttribute('href', '#download');
-
-    const exploreFeaturesBtn = screen.getByRole('link', { name: /Explore features/i });
-    expect(exploreFeaturesBtn).toHaveAttribute('href', '#features');
+    // Cookie is saved
+    expect(getCookie(COOKIE_NAME)).toBe('ar');
   });
 
-  it('uses configurable store download links from the config module', () => {
+  it('prioritizes saved cookie over browser language', () => {
+    // Browser is English, but cookie has Arabic
+    setBrowserLanguages(['en-US', 'en']);
+    document.cookie = `${COOKIE_NAME}=ar; path=/`;
+
     render(<App />);
 
-    const appStoreLinks = screen.getAllByLabelText(/App Store/i);
-    expect(appStoreLinks[0]).toHaveAttribute('href', STORE_LINKS.appStoreUrl);
-
-    const playStoreLinks = screen.getAllByLabelText(/Google Play/i);
-    expect(playStoreLinks[0]).toHaveAttribute('href', STORE_LINKS.googlePlayUrl);
+    expect(document.documentElement.dir).toBe('rtl');
+    expect(document.documentElement.lang).toBe('ar');
+    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
   });
 
-  it('supports switching to Hebrew with RTL layout, translated content, and keeps "Tidoco" in English', () => {
+  it('supports switching to Hebrew on Coming Soon page with RTL layout and updates cookie', () => {
     render(<App />);
 
-    // Open language selector in header
-    const langBtn = screen.getAllByRole('button', { name: /Select language/i })[0];
+    // Open language dropdown
+    const langBtn = screen.getByRole('button', { name: /Select language/i });
     fireEvent.click(langBtn);
 
     // Select Hebrew (עברית)
@@ -129,25 +144,28 @@ describe('Tidoco Landing Pages and Static App Mockups', () => {
     expect(document.documentElement.dir).toBe('rtl');
     expect(document.documentElement.lang).toBe('he');
 
-    // Verify translated Hebrew content
-    expect(screen.getByText('ניהול תורים,')).toBeInTheDocument();
-    expect(screen.getByText('הזמן שלך, מסודר להפליא')).toBeInTheDocument();
-    expect(screen.getByText('בוקר טוב!')).toBeInTheDocument();
-    expect(screen.getAllByText('תורים להיום')[0]).toBeInTheDocument();
+    // Translated Hebrew content
+    expect(screen.getByText(/Tidoco כמעט כאן/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/בקרוב\s*אצלכם\./i);
+    expect(screen.getByText(/אנחנו שמים את הליטושים האחרונים על Tidoco\. שווה לחכות\./i)).toBeInTheDocument();
+    expect(screen.getByText(/© 2026 Tidoco · בקרוב/i)).toBeInTheDocument();
 
-    // Verify Tidoco remains in English script
+    // Brand "Tidoco" preserved in English script
     const brandElements = screen.getAllByText('Tidoco');
     expect(brandElements.length).toBeGreaterThan(0);
-    brandElements.forEach(el => {
+    brandElements.forEach((el) => {
       expect(el.textContent).toBe('Tidoco');
     });
+
+    // Verify cookie updated
+    expect(getCookie(COOKIE_NAME)).toBe('he');
   });
 
-  it('supports switching to Arabic with RTL layout, translated content, and keeps "Tidoco" in English', () => {
+  it('supports switching to Arabic on Coming Soon page with RTL layout and updates cookie', () => {
     render(<App />);
 
-    // Open language selector in header
-    const langBtn = screen.getAllByRole('button', { name: /Select language/i })[0];
+    // Open language dropdown
+    const langBtn = screen.getByRole('button', { name: /Select language/i });
     fireEvent.click(langBtn);
 
     // Select Arabic (العربية)
@@ -158,17 +176,57 @@ describe('Tidoco Landing Pages and Static App Mockups', () => {
     expect(document.documentElement.dir).toBe('rtl');
     expect(document.documentElement.lang).toBe('ar');
 
-    // Verify translated Arabic content
-    expect(screen.getByText('إدارة الحجوزات')).toBeInTheDocument();
-    expect(screen.getByText('وقتك، مرتّب بأجمل شكل')).toBeInTheDocument();
-    expect(screen.getByText('صباح الخير!')).toBeInTheDocument();
-    expect(screen.getAllByText('مواعيد اليوم')[0]).toBeInTheDocument();
+    // Translated Arabic content
+    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/قريباً\s*جداً\./i);
+    expect(screen.getByText(/نضع اللمسات الأخيرة على Tidoco\. ترقبونا\./i)).toBeInTheDocument();
+    expect(screen.getByText(/© 2026 Tidoco · قريباً/i)).toBeInTheDocument();
 
-    // Verify Tidoco remains in English script
+    // Brand "Tidoco" preserved in English script
     const brandElements = screen.getAllByText('Tidoco');
     expect(brandElements.length).toBeGreaterThan(0);
-    brandElements.forEach(el => {
+    brandElements.forEach((el) => {
       expect(el.textContent).toBe('Tidoco');
     });
+
+    // Verify cookie updated
+    expect(getCookie(COOKIE_NAME)).toBe('ar');
+  });
+
+  it('preserves Business landing page code accessible via "/business"', () => {
+    window.history.pushState({}, '', '/business');
+    render(<App />);
+
+    // Business page content renders
+    expect(screen.getByText('Your time, beautifully organized')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Bookings made simple\./i);
+
+    // Business dashboard preview exists as a decorative image mockup
+    const boardPreview = screen.getByRole('img', { name: /Tidoco business dashboard preview/i });
+    expect(boardPreview).toBeInTheDocument();
+    expect(within(boardPreview).getByText('$50')).toBeInTheDocument();
+    expect(within(boardPreview).getByText('Daniel Alon')).toBeInTheDocument();
+
+    // Configurable store links remain configured
+    const appStoreLinks = screen.getAllByLabelText(/App Store/i);
+    expect(appStoreLinks[0]).toHaveAttribute('href', STORE_LINKS.appStoreUrl);
+  });
+
+  it('preserves Client landing page code accessible via "/clients"', () => {
+    window.history.pushState({}, '', '/clients');
+    render(<App />);
+
+    // Client page headline renders
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Good service\.\s*Right around you\./i);
+
+    // Client phone preview exists as a decorative image mockup
+    const phonePreview = screen.getByRole('img', { name: /Tidoco client app preview/i });
+    expect(phonePreview).toBeInTheDocument();
+    expect(within(phonePreview).getByText(/Tel Aviv/i)).toBeInTheDocument();
+    expect(within(phonePreview).getByText('Ink & Craft Tattoo Atelier')).toBeInTheDocument();
+
+    // Configurable store links remain configured
+    const appStoreLinks = screen.getAllByLabelText(/App Store/i);
+    expect(appStoreLinks[0]).toHaveAttribute('href', STORE_LINKS.appStoreUrl);
   });
 });

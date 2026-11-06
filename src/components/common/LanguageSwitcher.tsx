@@ -5,9 +5,13 @@ import styles from './LanguageSwitcher.module.css';
 
 interface LanguageSwitcherProps {
   compact?: boolean;
+  theme?: 'light' | 'dark';
 }
 
-export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ compact = false }) => {
+export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
+  compact = false,
+  theme = 'light',
+}) => {
   const { language, setLanguage, languages } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,11 +34,13 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ compact = fa
     setIsOpen(false);
   };
 
+  const themeClass = theme === 'dark' ? styles.darkTheme : styles.lightTheme;
+
   return (
     <div className={styles.container} ref={containerRef}>
       <button
         type="button"
-        className={`${styles.triggerBtn} ${compact ? styles.compact : ''}`}
+        className={`${styles.triggerBtn} ${compact ? styles.compact : ''} ${themeClass}`}
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
@@ -58,6 +64,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ compact = fa
                 onClick={() => handleSelect(lang.code)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
                     handleSelect(lang.code);
                   }
                 }}
@@ -65,7 +72,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ compact = fa
               >
                 <span className={styles.optionNative}>{lang.nativeName}</span>
                 <span className={styles.optionEnglish}>{lang.name}</span>
-                {isSelected && <span className={styles.checkmark} aria-hidden="true">✓</span>}
+                {isSelected && <span className={styles.check} aria-hidden="true">✓</span>}
               </li>
             );
           })}
@@ -74,4 +81,3 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ compact = fa
     </div>
   );
 };
-

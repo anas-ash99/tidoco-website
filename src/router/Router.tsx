@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type PageRoute = 'business' | 'client';
+export type PageRoute = 'coming-soon' | 'business' | 'client';
 
 interface RouterContextType {
   currentPage: PageRoute;
@@ -8,7 +8,7 @@ interface RouterContextType {
 }
 
 const RouterContext = createContext<RouterContextType>({
-  currentPage: 'business',
+  currentPage: 'coming-soon',
   navigateTo: () => {},
 });
 
@@ -17,15 +17,16 @@ export function useAppRouter() {
 }
 
 function resolvePageFromLocation(): PageRoute {
-  if (typeof window === 'undefined') return 'business';
+  if (typeof window === 'undefined') return 'coming-soon';
 
   const path = window.location.pathname.toLowerCase();
   const searchParams = new URLSearchParams(window.location.search);
   const hash = window.location.hash.toLowerCase();
 
+  // Preserved routes: works both at domain root / and under subpaths like /tidoco-website/
   if (
-    path.startsWith('/client') ||
-    path.startsWith('/clients') ||
+    path.includes('/client') ||
+    path.includes('/clients') ||
     searchParams.get('page') === 'client' ||
     searchParams.get('role') === 'client' ||
     hash.startsWith('#client')
@@ -33,7 +34,17 @@ function resolvePageFromLocation(): PageRoute {
     return 'client';
   }
 
-  return 'business';
+  if (
+    path.includes('/business') ||
+    searchParams.get('page') === 'business' ||
+    searchParams.get('role') === 'business' ||
+    hash.startsWith('#business')
+  ) {
+    return 'business';
+  }
+
+  // Home route points to the coming-soon page
+  return 'coming-soon';
 }
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -50,7 +61,12 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const navigateTo = (page: PageRoute) => {
     setCurrentPage(page);
-    const targetPath = page === 'client' ? '/clients' : '/';
+    const base = import.meta.env.BASE_URL || '/';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
+    let targetPath = cleanBase;
+    if (page === 'client') targetPath = `${cleanBase}clients`;
+    else if (page === 'business') targetPath = `${cleanBase}business`;
+
     if (window.location.pathname !== targetPath) {
       window.history.pushState({}, '', targetPath);
     }
@@ -63,4 +79,3 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     </RouterContext.Provider>
   );
 };
-

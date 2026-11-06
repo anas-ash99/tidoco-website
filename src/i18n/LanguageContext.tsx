@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState, useMemo } from '
 import { SupportedLanguage, Direction, SUPPORTED_LANGUAGES, LanguageInfo } from './types';
 import { translations, TranslationKey } from './translations';
 
+export const COOKIE_NAME = 'tidoco_lang';
+
 interface LanguageContextType {
   language: SupportedLanguage;
   direction: Direction;
@@ -24,20 +26,75 @@ export function useLanguage() {
   return useContext(LanguageContext);
 }
 
+export function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+export function setCookie(name: string, value: string, days = 365) {
+  if (typeof document === 'undefined') return;
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+}
+
+export function getBrowserLanguage(): SupportedLanguage | null {
+  if (typeof navigator === 'undefined') return null;
+
+  const browserLangs = navigator.languages && navigator.languages.length > 0
+    ? navigator.languages
+    : [navigator.language];
+
+  for (const rawLang of browserLangs) {
+    if (!rawLang) continue;
+    const lang = rawLang.toLowerCase();
+
+    // Hebrew: 'he' or legacy ISO 'iw'
+    if (lang.startsWith('he') || lang.startsWith('iw')) {
+      return 'he';
+    }
+    // Arabic: 'ar'
+    if (lang.startsWith('ar')) {
+      return 'ar';
+    }
+    // English: 'en'
+    if (lang.startsWith('en')) {
+      return 'en';
+    }
+  }
+
+  return null;
+}
+
 function resolveInitialLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return 'en';
 
+  // 1. Explicit query parameter ?lang=
   const params = new URLSearchParams(window.location.search);
   const langParam = params.get('lang')?.toLowerCase();
   if (langParam === 'he' || langParam === 'ar' || langParam === 'en') {
     return langParam as SupportedLanguage;
   }
 
-  const savedLang = localStorage.getItem('tidoco_lang');
-  if (savedLang === 'he' || savedLang === 'ar' || savedLang === 'en') {
-    return savedLang as SupportedLanguage;
+  // 2. Saved cookie
+  const cookieLang = getCookie(COOKIE_NAME);
+  if (cookieLang === 'he' || cookieLang === 'ar' || cookieLang === 'en') {
+    return cookieLang as SupportedLanguage;
   }
 
+  // Fallback to localStorage if cookie isn't populated
+  const localLang = localStorage.getItem(COOKIE_NAME);
+  if (localLang === 'he' || localLang === 'ar' || localLang === 'en') {
+    return localLang as SupportedLanguage;
+  }
+
+  // 3. Browser language default
+  const browserLang = getBrowserLanguage();
+  if (browserLang) {
+    return browserLang;
+  }
+
+  // 4. Fallback
   return 'en';
 }
 
@@ -53,7 +110,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const setLanguage = (lang: SupportedLanguage) => {
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('tidoco_lang', lang);
+      setCookie(COOKIE_NAME, lang);
+      localStorage.setItem(COOKIE_NAME, lang);
       const url = new URL(window.location.href);
       if (lang === 'en') {
         url.searchParams.delete('lang');
@@ -68,6 +126,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (typeof document !== 'undefined') {
       document.documentElement.lang = language;
       document.documentElement.dir = direction;
+      // Ensure cookie is saved
+      if (!getCookie(COOKIE_NAME)) {
+        setCookie(COOKIE_NAME, language);
+      }
     }
   }, [language, direction]);
 

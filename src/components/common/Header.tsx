@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ role }) => {
         onClick={handleScrollTo('top')}
         aria-label="Tidoco home"
       >
-        <img src="/tidoco_logo.png" alt="Tidoco logo" width="40" height="40" />
+        <img src={`${import.meta.env.BASE_URL}tidoco_logo.png`} alt="Tidoco logo" width="40" height="40" />
         <span>{t('brandName')}</span>
       </a>
 

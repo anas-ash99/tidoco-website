@@ -30,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ role }) => {
           onClick={handleScrollTo('top')}
           aria-label="Tidoco home"
         >
-          <img src="/tidoco_logo.png" alt="" width="30" height="30" aria-hidden="true" />
+          <img src={`${import.meta.env.BASE_URL}tidoco_logo.png`} alt="" width="30" height="30" aria-hidden="true" />
           <span>{t('brandName')}</span>
         </a>
 
@@ -46,7 +46,7 @@ export const Footer: React.FC<FooterProps> = ({ role }) => {
           >
             {role === 'business' ? t('footerSwitchToClient') : t('footerSwitchToBiz')}
           </button>
-          <LanguageSwitcher compact />
+          <LanguageSwitcher compact theme="dark" />
           <a href={STORE_LINKS.contactEmail}>{t('footerContact')}</a>
           {role === 'business' ? (
             <a href="#features" onClick={handleScrollTo('features')}>{t('navFeatures')}</a>
