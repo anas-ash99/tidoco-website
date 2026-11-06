@@ -21,7 +21,7 @@ const locales = [
     title: 'Tidoco — בקרוב',
     desc: 'Tidoco מגיעה בקרוב. דרך פשוטה יותר לגלות שירותים ולנהל תורים.',
     locale: 'he_IL',
-    url: 'https://anas-ash99.github.io/tidoco-website/he/',
+    url: 'https://tidoco.com/he/',
   },
   {
     lang: 'ar',
@@ -29,7 +29,7 @@ const locales = [
     title: 'Tidoco — قريباً',
     desc: 'Tidoco قريباً. طريقة أبسط لاكتشاف الخدمات وإدارة الحجوزات.',
     locale: 'ar_AR',
-    url: 'https://anas-ash99.github.io/tidoco-website/ar/',
+    url: 'https://tidoco.com/ar/',
   },
 ];
 
