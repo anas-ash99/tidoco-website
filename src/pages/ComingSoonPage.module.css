@@ -48,7 +48,7 @@
   min-height: calc(100vh - 130px);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 46px;
+  gap: 52px;
   align-items: center;
   padding: 35px 0 55px;
 }
@@ -405,13 +405,14 @@
 @media (max-width: 800px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 0;
+    gap: 48px;
   }
   .visual {
-    min-height: 760px;
+    min-height: 700px;
+    margin-top: 12px;
   }
   .orb {
-    top: 120px;
+    top: 110px;
   }
 }
 
@@ -425,6 +426,7 @@
   .hero {
     padding-top: 24px;
     padding-bottom: 35px;
+    gap: 40px;
   }
   .headline {
     font-size: 42px;
@@ -435,6 +437,7 @@
   }
   .visual {
     min-height: 610px;
+    margin-top: 16px;
   }
   .phone {
     width: min(320px, calc(100vw - 44px));
