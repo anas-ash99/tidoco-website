@@ -35,8 +35,7 @@ export const ComingSoonPage: React.FC = () => {
             {t('comingSoonEyebrow')}
           </div>
           <h1 className={styles.headline}>
-            <span>{t('comingSoonH1Span')}</span>
-            <br />
+            <span>{t('comingSoonH1Span')}</span>{' '}
             {t('comingSoonH1End')}
           </h1>
           <p className={styles.lead}>{t('comingSoonLead')}</p>
