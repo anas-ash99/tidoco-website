@@ -110,7 +110,7 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     expect(document.documentElement.lang).toBe('ar');
 
     // Verify Arabic content
-    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tidoco على وشك الوصول/i)).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/قريباً\s*جداً\./i);
 
     // Cookie is saved
@@ -126,7 +126,7 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
 
     expect(document.documentElement.dir).toBe('rtl');
     expect(document.documentElement.lang).toBe('ar');
-    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tidoco على وشك الوصول/i)).toBeInTheDocument();
   });
 
   it('supports switching to Hebrew on Coming Soon page with RTL layout and updates cookie', () => {
@@ -181,14 +181,14 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     expect(document.documentElement.lang).toBe('ar');
 
     // Translated Arabic content
-    expect(screen.getByText(/Tidoco قريباً جداً/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tidoco على وشك الوصول/i)).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/قريباً\s*جداً\./i);
     expect(screen.getByText(/نضع اللمسات الأخيرة على Tidoco\. ترقبونا\./i)).toBeInTheDocument();
     expect(screen.getByText(/© 2026 Tidoco · قريباً/i)).toBeInTheDocument();
 
-    // Verify revenue shows $50 in Arabic
+    // Verify revenue shows ₪350 in Arabic
     const previewImg = screen.getByRole('img', { name: /Preview of the Tidoco booking app/i });
-    expect(within(previewImg).getByText('$50')).toBeInTheDocument();
+    expect(within(previewImg).getByText('₪350')).toBeInTheDocument();
 
     // Brand "Tidoco" preserved in English script
     const brandElements = screen.getAllByText('Tidoco');
