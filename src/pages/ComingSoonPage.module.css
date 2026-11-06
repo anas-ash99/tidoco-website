@@ -423,69 +423,93 @@
     height: 70px;
   }
   .hero {
-    padding-top: 30px;
+    padding-top: 24px;
+    padding-bottom: 35px;
   }
   .headline {
-    font-size: 49px;
-    letter-spacing: -3px;
+    font-size: 42px;
+    letter-spacing: -2.5px;
   }
   .lead {
-    font-size: 16px;
+    font-size: 15px;
   }
   .visual {
-    min-height: 730px;
+    min-height: 610px;
   }
   .phone {
-    width: min(360px, calc(100vw - 54px));
-    height: 680px;
-    padding: 15px;
+    width: min(320px, calc(100vw - 44px));
+    height: 620px;
+    padding: 14px;
+    border-radius: 26px;
+    transform: rotate(1.2deg) scale(0.88);
+    transform-origin: center top;
+  }
+  .rtlPhone {
+    transform: rotate(-1.2deg) scale(0.88);
   }
   .greet {
-    margin: 0 -15px;
+    margin: 0 -14px;
+    padding: 18px 16px 24px;
   }
   .metrics {
-    margin-left: -5px;
-    margin-right: -5px;
+    margin-left: -4px;
+    margin-right: -4px;
+    margin-top: -18px;
+    padding: 12px 2px;
   }
   .orb {
-    width: 310px;
-    height: 310px;
-    top: 140px;
+    width: 270px;
+    height: 270px;
+    top: 80px;
   }
   .toast {
     font-size: 9px;
-    padding: 8px 9px;
+    padding: 7px 9px;
   }
   .toast small {
     font-size: 8px;
   }
   .toast i {
-    width: 25px;
-    height: 25px;
+    width: 23px;
+    height: 23px;
   }
   .one {
-    right: -4px;
-    top: 48px;
+    right: 2px;
+    top: 36px;
   }
   .two {
-    left: -3px;
-    bottom: 120px;
+    left: 2px;
+    bottom: 95px;
   }
   .three {
-    right: -3px;
-    bottom: 73px;
+    right: 2px;
+    bottom: 45px;
   }
   .rtlOne {
-    left: -4px;
+    left: 2px;
     right: auto;
   }
   .rtlTwo {
-    right: -3px;
+    right: 2px;
     left: auto;
   }
   .rtlThree {
-    left: -3px;
+    left: 2px;
     right: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .visual {
+    min-height: 560px;
+  }
+  .phone {
+    width: min(295px, calc(100vw - 32px));
+    height: 590px;
+    transform: rotate(1deg) scale(0.82);
+  }
+  .rtlPhone {
+    transform: rotate(-1deg) scale(0.82);
   }
 }
 

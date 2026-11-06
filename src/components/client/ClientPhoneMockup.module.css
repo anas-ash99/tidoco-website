@@ -467,13 +467,25 @@
 
             @media (max-width: 520px) {
               .visual {
-                min-height: 755px;
+                min-height: 640px;
+              }
+
+              .orb {
+                width: 270px;
+                height: 270px;
+                top: 80px;
               }
 
               .phone {
-                width: min(370px, calc(100vw - 48px));
-                height: 700px;
-                border-radius: 27px;
+                width: min(330px, calc(100vw - 44px));
+                height: 690px;
+                border-radius: 25px;
+                transform: rotate(1deg) scale(0.86);
+                transform-origin: center top;
+              }
+
+              .rtlPhone {
+                transform: rotate(-1deg) scale(0.86);
               }
 
               .status {
@@ -561,5 +573,21 @@
               .rtlToastSaved {
                 right: auto;
                 left: -5px;
+              }
+            }
+
+            @media (max-width: 380px) {
+              .visual {
+                min-height: 590px;
+              }
+
+              .phone {
+                width: min(305px, calc(100vw - 30px));
+                height: 670px;
+                transform: rotate(0.8deg) scale(0.80);
+              }
+
+              .rtlPhone {
+                transform: rotate(-0.8deg) scale(0.80);
               }
             }
