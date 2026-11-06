@@ -66,17 +66,58 @@ export function getBrowserLanguage(): SupportedLanguage | null {
   return null;
 }
 
+export function getLangFromPath(pathname: string): SupportedLanguage | null {
+  if (!pathname) return null;
+  const lower = pathname.toLowerCase();
+  if (/(?:^|\/)he(?:\/|$)/.test(lower)) {
+    return 'he';
+  }
+  if (/(?:^|\/)ar(?:\/|$)/.test(lower)) {
+    return 'ar';
+  }
+  if (/(?:^|\/)en(?:\/|$)/.test(lower)) {
+    return 'en';
+  }
+  return null;
+}
+
+export function getLocalizedPath(pathname: string, lang: SupportedLanguage): string {
+  const rawBase = import.meta.env.BASE_URL || '/';
+  const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+
+  let subpath = pathname;
+  if (subpath.startsWith(base)) {
+    subpath = subpath.slice(base.length);
+  } else if (subpath.startsWith('/')) {
+    subpath = subpath.slice(1);
+  }
+
+  // Strip existing language prefix if present at start of subpath
+  subpath = subpath.replace(/^(?:he|ar|en)(?:\/|$)/, '');
+
+  if (lang === 'en') {
+    return subpath ? `${base}${subpath}` : base;
+  }
+  return subpath ? `${base}${lang}/${subpath}` : `${base}${lang}/`;
+}
+
 function resolveInitialLanguage(): SupportedLanguage {
   if (typeof window === 'undefined') return 'en';
 
-  // 1. Explicit query parameter ?lang=
+  // 1. Language segment in URL path (highest priority, e.g. /tidoco-website/he/ or /ar/)
+  const pathLang = getLangFromPath(window.location.pathname);
+  if (pathLang) {
+    return pathLang;
+  }
+
+  // 2. Explicit query parameter ?lang=
   const params = new URLSearchParams(window.location.search);
   const langParam = params.get('lang')?.toLowerCase();
   if (langParam === 'he' || langParam === 'ar' || langParam === 'en') {
     return langParam as SupportedLanguage;
   }
 
-  // 2. Saved cookie
+  // 3. Saved cookie
   const cookieLang = getCookie(COOKIE_NAME);
   if (cookieLang === 'he' || cookieLang === 'ar' || cookieLang === 'en') {
     return cookieLang as SupportedLanguage;
@@ -88,13 +129,13 @@ function resolveInitialLanguage(): SupportedLanguage {
     return localLang as SupportedLanguage;
   }
 
-  // 3. Browser language default
+  // 4. Browser language default
   const browserLang = getBrowserLanguage();
   if (browserLang) {
     return browserLang;
   }
 
-  // 4. Fallback
+  // 5. Fallback
   return 'en';
 }
 
@@ -112,12 +153,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (typeof window !== 'undefined') {
       setCookie(COOKIE_NAME, lang);
       localStorage.setItem(COOKIE_NAME, lang);
+      const targetPath = getLocalizedPath(window.location.pathname, lang);
       const url = new URL(window.location.href);
-      if (lang === 'en') {
-        url.searchParams.delete('lang');
-      } else {
-        url.searchParams.set('lang', lang);
-      }
+      url.pathname = targetPath;
+      url.searchParams.delete('lang');
       window.history.replaceState({}, '', url.toString());
     }
   };
@@ -129,6 +168,16 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       // Ensure cookie is saved
       if (!getCookie(COOKIE_NAME)) {
         setCookie(COOKIE_NAME, language);
+      }
+    }
+    if (typeof window !== 'undefined') {
+      const currentPathLang = getLangFromPath(window.location.pathname);
+      if (language !== 'en' && !currentPathLang) {
+        const targetPath = getLocalizedPath(window.location.pathname, language);
+        const url = new URL(window.location.href);
+        url.pathname = targetPath;
+        url.searchParams.delete('lang');
+        window.history.replaceState({}, '', url.toString());
       }
     }
   }, [language, direction]);

@@ -710,7 +710,7 @@ export const translations = {
     footerDownload: 'تحميل التطبيق',
 
     // Coming Soon Page
-    comingSoonMetaTitle: 'Tidoco — قادم',
+    comingSoonMetaTitle: 'Tidoco — قريباً',
     comingSoonMetaDesc: 'Tidoco قريباً. طريقة أبسط لاكتشاف الخدمات وإدارة الحجوزات.',
     comingSoonEyebrow: 'Tidoco على وشك الوصول — ترقّبوا',
     comingSoonH1Span: 'قريباً',

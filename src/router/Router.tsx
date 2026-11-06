@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getLangFromPath } from '../i18n/LanguageContext';
 
 export type PageRoute = 'coming-soon' | 'business' | 'client';
 
@@ -63,9 +64,12 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setCurrentPage(page);
     const base = import.meta.env.BASE_URL || '/';
     const cleanBase = base.endsWith('/') ? base : `${base}/`;
-    let targetPath = cleanBase;
-    if (page === 'client') targetPath = `${cleanBase}clients`;
-    else if (page === 'business') targetPath = `${cleanBase}business`;
+    const lang = getLangFromPath(window.location.pathname);
+    const langPrefix = lang && lang !== 'en' ? `${lang}/` : '';
+
+    let targetPath = `${cleanBase}${langPrefix}`;
+    if (page === 'client') targetPath = `${cleanBase}${langPrefix}clients`;
+    else if (page === 'business') targetPath = `${cleanBase}${langPrefix}business`;
 
     if (window.location.pathname !== targetPath) {
       window.history.pushState({}, '', targetPath);

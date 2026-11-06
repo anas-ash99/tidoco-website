@@ -237,4 +237,34 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     const appStoreLinks = screen.getAllByLabelText(/App Store/i);
     expect(appStoreLinks[0]).toHaveAttribute('href', STORE_LINKS.appStoreUrl);
   });
+
+  it('detects language from URL path "/he/" and prioritizes it over default', () => {
+    window.history.pushState({}, '', '/he/');
+    render(<App />);
+
+    expect(document.documentElement.lang).toBe('he');
+    expect(document.documentElement.dir).toBe('rtl');
+    expect(screen.getByText(/Tidoco כמעט כאן/i)).toBeInTheDocument();
+  });
+
+  it('detects language from URL path "/ar/" and prioritizes it over default', () => {
+    window.history.pushState({}, '', '/ar/');
+    render(<App />);
+
+    expect(document.documentElement.lang).toBe('ar');
+    expect(document.documentElement.dir).toBe('rtl');
+    expect(screen.getByText(/Tidoco على وشك الوصول/i)).toBeInTheDocument();
+  });
+
+  it('updates browser URL to "/he/" when switching language to Hebrew', () => {
+    render(<App />);
+
+    const switcherBtn = screen.getByRole('button', { name: /Select language/i });
+    fireEvent.click(switcherBtn);
+
+    const hebrewOption = screen.getByRole('option', { name: /עברית/i });
+    fireEvent.click(hebrewOption);
+
+    expect(window.location.pathname).toMatch(/\/he\/?$/);
+  });
 });
