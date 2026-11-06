@@ -23,7 +23,13 @@ export const BusinessDashboardMockup: React.FC = () => {
 
         {/* Board Header */}
         <div className={styles.boardHead}>
-          <span className={styles.calendarLogo}>▦</span>
+          <img
+            src={`${import.meta.env.BASE_URL}tidoco_logo.png`}
+            alt=""
+            className={styles.calendarLogo}
+            width="54"
+            height="54"
+          />
           <div>
             <b>{t('brandName')}</b>
             <small>{t('bizBoardSubhead')}</small>

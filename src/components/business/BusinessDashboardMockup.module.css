@@ -58,12 +58,8 @@
 .calendarLogo {
   width: 54px;
   height: 54px;
-  background: #09abc2;
-  color: #ffffff;
   border-radius: 18px;
-  display: grid;
-  place-items: center;
-  font-size: 27px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

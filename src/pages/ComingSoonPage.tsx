@@ -63,7 +63,13 @@ export const ComingSoonPage: React.FC = () => {
 
             {/* App Head */}
             <div className={styles.apphead}>
-              <div className={styles.mark}>▦</div>
+              <img
+                src={`${import.meta.env.BASE_URL}tidoco_logo.png`}
+                alt=""
+                className={styles.mark}
+                width="46"
+                height="46"
+              />
               <div>
                 <b>{t('brandName')}</b>
                 <small>{t('comingSoonAppSubhead')}</small>
