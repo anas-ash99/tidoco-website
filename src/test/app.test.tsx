@@ -68,7 +68,7 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     // Elements inside preview
     expect(within(previewImg).getByText('Bookings, made simple')).toBeInTheDocument();
     expect(within(previewImg).getByText('Good Morning!')).toBeInTheDocument();
-    expect(within(previewImg).getByText('$50')).toBeInTheDocument();
+    expect(within(previewImg).getByText('₪350')).toBeInTheDocument();
     expect(within(previewImg).getByText('Quick Actions')).toBeInTheDocument();
     expect(within(previewImg).getByText('Find a service')).toBeInTheDocument();
     expect(within(previewImg).getByText('Coming up today')).toBeInTheDocument();
@@ -150,6 +150,10 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     expect(screen.getByText(/אנחנו שמים את הליטושים האחרונים על Tidoco\. שווה לחכות\./i)).toBeInTheDocument();
     expect(screen.getByText(/© 2026 Tidoco · בקרוב/i)).toBeInTheDocument();
 
+    // Verify revenue shows ₪350 in Hebrew
+    const previewImg = screen.getByRole('img', { name: /Preview of the Tidoco booking app/i });
+    expect(within(previewImg).getByText('₪350')).toBeInTheDocument();
+
     // Brand "Tidoco" preserved in English script
     const brandElements = screen.getAllByText('Tidoco');
     expect(brandElements.length).toBeGreaterThan(0);
@@ -181,6 +185,10 @@ describe('Tidoco Coming Soon Home Page & Preserved Landing Pages', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/قريباً\s*جداً\./i);
     expect(screen.getByText(/نضع اللمسات الأخيرة على Tidoco\. ترقبونا\./i)).toBeInTheDocument();
     expect(screen.getByText(/© 2026 Tidoco · قريباً/i)).toBeInTheDocument();
+
+    // Verify revenue shows $50 in Arabic
+    const previewImg = screen.getByRole('img', { name: /Preview of the Tidoco booking app/i });
+    expect(within(previewImg).getByText('$50')).toBeInTheDocument();
 
     // Brand "Tidoco" preserved in English script
     const brandElements = screen.getAllByText('Tidoco');

@@ -89,7 +89,7 @@ export const ComingSoonPage: React.FC = () => {
                 <small>{t('comingSoonMetricAppointments')}</small>
               </div>
               <div className={styles.metricGreen}>
-                <strong>$50</strong>
+                <strong>{t('comingSoonMetricRevenueAmount')}</strong>
                 <small>{t('comingSoonMetricRevenue')}</small>
               </div>
               <div className={styles.metricOrange}>
