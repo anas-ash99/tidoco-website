@@ -107,7 +107,7 @@ export const ComingSoonPage: React.FC = () => {
                 <small>{t('comingSoonDiscoverNearby')}</small>
               </div>
               <div className={`${styles.tile} ${styles.tileGreen}`}>
-                <i>▦</i>
+                <i>⚙</i>
                 <b>{t('comingSoonManageBookings')}</b>
                 <small>{t('comingSoonPlansTogether')}</small>
               </div>
