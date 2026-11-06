@@ -1,0 +1,594 @@
+.visualContainer {
+  min-height: 870px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  user-select: none;
+}
+
+.orb {
+  position: absolute;
+  width: 410px;
+  height: 410px;
+  right: 50%;
+  transform: translateX(50%);
+  top: 100px;
+  background: linear-gradient(145deg, #e0f8fa, #c8f1f3);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.tidocoBoard {
+  position: relative;
+  z-index: 1;
+  width: 370px;
+  height: 810px;
+  background: #ffffff;
+  border: 1px solid #e9eff1;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 34px 78px rgba(9, 42, 59, 0.17);
+  transform: rotate(1.5deg);
+  color: #18232a;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.miniStatus {
+  height: 39px;
+  padding: 12px 26px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: #18232a;
+}
+
+.boardHead {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 8px 22px 12px;
+  border-bottom: 1px solid #eef1f2;
+}
+
+.calendarLogo {
+  width: 54px;
+  height: 54px;
+  background: #09abc2;
+  color: #ffffff;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 27px;
+  flex-shrink: 0;
+}
+
+.boardHead b {
+  display: block;
+  font-size: 24px;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.boardHead small {
+  display: block;
+  font-size: 15px;
+  color: #637985;
+}
+
+.bell {
+  margin-left: auto;
+  color: #999999;
+  font-size: 20px;
+}
+
+.tabContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.boardGreeting {
+  height: 132px;
+  background: linear-gradient(110deg, #0798b2, #08b7c9);
+  color: #ffffff;
+  padding: 21px 24px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+}
+
+.boardGreeting b {
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.boardGreeting span {
+  font-size: 17px;
+  opacity: 0.95;
+}
+
+.boardMetrics {
+  position: relative;
+  margin: -25px 17px 0;
+  background: #ffffff;
+  border: 1px solid #eef0f2;
+  border-radius: 20px;
+  padding: 17px 7px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.boardMetrics div {
+  text-align: center;
+  display: grid;
+  gap: 5px;
+  padding: 2px 5px;
+}
+
+.boardMetrics div+div {
+  border-left: 1px solid #e5d8f6;
+}
+
+.boardMetrics b {
+  font-size: 30px;
+  color: #111111;
+  line-height: 1;
+}
+
+.boardMetrics div:nth-child(2) b {
+  color: #18a454;
+  font-size: 27px;
+}
+
+.boardMetrics div:nth-child(3) b {
+  color: #ff7827;
+}
+
+.boardMetrics span {
+  font-size: 13px;
+  line-height: 1.15;
+  color: #55626a;
+}
+
+.boardBody {
+  display: block;
+  padding: 20px 18px 12px;
+  flex: 1;
+}
+
+.boardQuick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.boardQuick>b,
+.boardAppointments>b {
+  font-size: 18px;
+  color: #18232a;
+}
+
+.boardQuick>b {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+}
+
+.quickTile {
+  height: 125px;
+  border: 1px solid #edf0f2;
+  border-radius: 16px;
+  margin: 0;
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.quickTile i {
+  font-style: normal;
+  width: 43px;
+  height: 43px;
+  border-radius: 14px;
+  background: #dcecff;
+  color: #079bb5;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+}
+
+.quickTile:nth-child(3) i {
+  background: #d9f8e6;
+  color: #15a454;
+  font-size: 20px;
+}
+
+.quickTile strong {
+  font-size: 12px;
+  color: #18232a;
+  display: block;
+  white-space: nowrap;
+}
+
+.quickTile small {
+  font-size: 11px;
+  color: #78838e;
+  display: block;
+  margin-top: 3px;
+}
+
+.boardAppointments {
+  margin-top: 17px;
+}
+
+.boardAppointments>b {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.viewAllBtn {
+  font-size: 13px;
+  color: #079bb5;
+  font-weight: 600;
+}
+
+.appointmentList {
+  display: flex;
+  flex-direction: column;
+}
+
+.clientRow {
+  min-height: 81px;
+  border: 1px solid #edf0f2;
+  border-radius: 15px;
+  margin-bottom: 9px;
+  padding: 9px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
+.clientRow i {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  background: #d9f8e6;
+  color: #138f49;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  font-style: normal;
+}
+
+.clientRow span {
+  min-width: 0;
+  flex: 1;
+}
+
+.clientRow strong {
+  display: block;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #18232a;
+}
+
+.clientRow small {
+  display: block;
+  font-size: 11px;
+  color: #77818f;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusBadge {
+  font-size: 10px;
+  font-style: normal;
+  background: #fff0dd;
+  color: #db6c2d;
+  padding: 7px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.statusBadge.ok {
+  background: #dcf9e9;
+  color: #168549;
+}
+
+  .statusBadge.pending {
+    background: #fff0dd;
+    color: #db6c2d;
+  }
+
+  /* Bottom Tab Bar */
+  .boardTabs {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    border-top: 1px solid #e6eaec;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #ffffff;
+  }
+
+    .tabItem {
+      font-size: 11px;
+      color: #8e969b;
+      font-weight: 600;
+      padding: 8px 10px;
+    }
+
+      .tabItem.activeTab {
+        color: #079bb5;
+        font-weight: 750;
+      }
+
+      /* Floating callouts / toasts */
+      .pop {
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 11px 14px;
+        background: #ffffff;
+        border: 1px solid #e6eff1;
+        border-radius: 14px;
+        box-shadow: 0 14px 32px rgba(11, 53, 69, 0.11);
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        color: #102f40;
+        pointer-events: none;
+      }
+
+      .pop small {
+        display: block;
+        color: #71858e;
+        font-size: 10px;
+        font-weight: 500;
+        margin-top: 3px;
+      }
+
+      .popIcon {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: #def8f4;
+        color: #08a8a3;
+        display: grid;
+        place-items: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .popBooking {
+        right: -18px;
+        top: 70px;
+        transform: rotate(-3deg);
+      }
+
+      .popTime {
+        left: -30px;
+        bottom: 115px;
+        transform: rotate(-4deg);
+      }
+
+      .popCount {
+        right: -19px;
+        bottom: 64px;
+        transform: rotate(2deg);
+      }
+
+
+        /* RTL Specific Styles */
+        .rtlBoard {
+          transform: rotate(-1.5deg);
+        }
+
+
+          .rtlPopBooking {
+            right: auto;
+            left: -18px;
+            transform: rotate(3deg);
+          }
+
+
+            .rtlPopTime {
+              left: auto;
+              right: -30px;
+              transform: rotate(4deg);
+            }
+
+
+              .rtlPopCount {
+                right: auto;
+                left: -19px;
+                transform: rotate(-2deg);
+              }
+
+              /* Mobile responsive adjustments */
+              @media (max-width: 520px) {
+                .visualContainer {
+                  min-height: 850px;
+                }
+
+                .tidocoBoard {
+                  width: min(370px, calc(100vw - 64px));
+                  height: 790px;
+                  border-radius: 25px;
+                  transform: rotate(1deg);
+                }
+
+                .miniStatus {
+                  height: 34px;
+                  padding: 10px 19px 0;
+                }
+
+                .boardHead {
+                  height: 67px;
+                  padding: 6px 17px;
+                }
+
+                .calendarLogo {
+                  width: 47px;
+                  height: 47px;
+                }
+
+                .boardHead b {
+                  font-size: 21px;
+                }
+
+                .boardHead small {
+                  font-size: 13px;
+                }
+
+                .boardGreeting {
+                  height: 118px;
+                  padding: 18px 19px;
+                }
+
+                .boardGreeting b {
+                  font-size: 23px;
+                }
+
+                .boardGreeting span {
+                  font-size: 15px;
+                }
+
+                .boardMetrics {
+                  margin: -22px 12px 0;
+                  padding: 14px 4px;
+                }
+
+                .boardMetrics b {
+                  font-size: 25px;
+                }
+
+                .boardMetrics div:nth-child(2) b {
+                  font-size: 22px;
+                }
+
+                .boardMetrics span {
+                  font-size: 11px;
+                }
+
+                .boardBody {
+                  padding: 17px 14px 10px;
+                }
+
+                .boardQuick>b,
+                .boardAppointments>b {
+                  font-size: 16px;
+                }
+
+                .quickTile {
+                  height: 112px;
+                  padding: 8px;
+                  gap: 6px;
+                }
+
+                .quickTile i {
+                  width: 38px;
+                  height: 38px;
+                  font-size: 22px;
+                }
+
+                .quickTile strong {
+                  font-size: 10px;
+                }
+
+                .quickTile small {
+                  font-size: 9px;
+                }
+
+                .boardAppointments {
+                  margin-top: 14px;
+                }
+
+                .clientRow {
+                  min-height: 73px;
+                }
+
+                .clientRow strong {
+                  font-size: 12px;
+                }
+
+                .clientRow small {
+                  font-size: 10px;
+                }
+
+                .clientRow em,
+                .statusBadge {
+                  font-size: 9px;
+                  padding: 6px 7px;
+                }
+
+                .boardTabs {
+                  height: 49px;
+                }
+
+                .pop {
+                  font-size: 10px;
+                  padding: 8px 10px;
+                }
+
+                .pop small {
+                  font-size: 8px;
+                }
+
+                .popBooking {
+                  right: -7px;
+                  top: 42px;
+                }
+
+                .popTime {
+                  left: -9px;
+                  bottom: 102px;
+                }
+
+                .popCount {
+                  right: -7px;
+                  bottom: 49px;
+                }
+
+                .rtlBoard {
+                  transform: rotate(-1deg);
+                }
+
+                .rtlPopBooking {
+                  right: auto;
+                  left: -7px;
+                }
+
+                .rtlPopTime {
+                  left: auto;
+                  right: -9px;
+                }
+
+                .rtlPopCount {
+                  right: auto;
+                  left: -7px;
+                }
+              }

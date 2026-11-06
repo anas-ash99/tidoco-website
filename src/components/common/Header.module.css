@@ -1,0 +1,132 @@
+.nav {
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  color: var(--ink);
+  transition: opacity 0.15s;
+}
+
+.brand:hover {
+  opacity: 0.9;
+}
+
+.brand img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 11px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #45606d;
+}
+
+.links a {
+  transition: color 0.15s;
+}
+
+.links a:hover {
+  color: #079eac;
+}
+
+.switcherLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #088b99;
+  background: #e6f7f9;
+  border: 1px solid #c9eff2;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.switcherLink:hover {
+  background: #d8f3f6;
+  color: #06727d;
+  transform: translateY(-1px);
+}
+
+.switcherBadge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #0bbdcb;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+.navCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 12px;
+  padding: 13px 20px;
+  background: var(--navy);
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.navCta:hover {
+  transform: translateY(-2px);
+  background: var(--navy-hover);
+  color: white;
+}
+
+@media (max-width: 850px) {
+  .links {
+    gap: 14px;
+  }
+  .links > a:not(.navCta) {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav {
+    height: 70px;
+  }
+  .brand {
+    font-size: 21px;
+    gap: 8px;
+  }
+  .brand img {
+    width: 35px;
+    height: 35px;
+  }
+  .switcherLink {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+  .switcherBadge {
+    display: none;
+  }
+  .navCta {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+}
+

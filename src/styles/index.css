@@ -1,0 +1,76 @@
+:root {
+  --ink: #092a3b;
+  --muted: #58717d;
+  --cyan: #0cc4d3;
+  --pale: #e8f8fa;
+  --line: #dce9ec;
+  --white: #ffffff;
+  --navy: #0b2b3d;
+  --navy-hover: #12445a;
+  --primary-hover: #08a8b6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f8fbfc;
+  color: var(--ink);
+  font-family: 'Inter', 'Heebo', 'Noto Sans Arabic', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+:focus-visible {
+  outline: 2px solid #08a8b6;
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: min(1160px, calc(100% - 48px));
+  margin: auto;
+}
+
+@media (max-width: 520px) {
+  .wrap {
+    width: calc(100% - 36px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* RTL Global Adjustments */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+  text-align: right;
+}

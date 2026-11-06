@@ -1,0 +1,159 @@
+.hero {
+  padding: 58px 0 76px;
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #058e9c;
+  background: #e4f8f9;
+  border: 1px solid #d1f1f3;
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background: #0bc1cf;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #c8f1f3;
+}
+
+.headline {
+  font-size: clamp(46px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -4.5px;
+  margin: 22px 0 20px;
+  max-width: 640px;
+  color: var(--ink);
+}
+
+.headline span {
+  color: #08aebe;
+}
+
+.lead {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 510px;
+  margin: 0 0 28px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 12px;
+  padding: 13px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.primary {
+  background: #0bbdcb;
+  color: white;
+  box-shadow: 0 10px 24px rgba(11, 189, 203, 0.2);
+}
+
+.primary:hover {
+  background: #08a8b6;
+}
+
+.secondary {
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.secondary:hover {
+  background: #eef8f9;
+}
+
+.trust {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 26px;
+  font-size: 12px;
+  color: #6d838c;
+}
+
+.avatars {
+  display: flex;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #f8fbfc;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-right: -8px;
+  font-size: 11px;
+  background: #caeef0;
+}
+
+.avatar:nth-child(2) {
+  background: #e4d6c6;
+}
+
+.avatar:nth-child(3) {
+  background: #cdd9fb;
+}
+
+.trust strong {
+  color: #294756;
+}
+
+.visualColumn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 850px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 35px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding: 30px 0 42px;
+  }
+  .headline {
+    font-size: 48px;
+    letter-spacing: -3px;
+  }
+  .lead {
+    font-size: 16px;
+  }
+}
+
